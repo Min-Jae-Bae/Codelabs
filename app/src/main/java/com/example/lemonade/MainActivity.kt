@@ -97,11 +97,40 @@ class MainActivity : AppCompatActivity() {
         //  lemonade making progression (or at least make some changes to the current state in the
         //  case of squeezing the lemon). That should be done in this conditional statement
 
-        val lemonadeState: ImageView = findViewById(R.drawable.lemon_tree)
 
         // TODO: When the image is clicked in the SELECT state, the state should become SQUEEZE
         //  - The lemonSize variable needs to be set using the 'pick()' method in the LemonTree class
         //  - The squeezeCount should be 0 since we haven't squeezed any lemons just yet.
+        val lemontree = LemonTree()
+        val lemonTreePick = lemontree.pick()
+
+        when (lemonadeState) {
+            SELECT -> {
+                lemonSize = lemonTreePick
+                squeezeCount = 0
+            }
+
+            SQUEEZE -> {
+                squeezeCount++
+                lemonSize--
+
+                lemonadeState = when (lemonSize) {
+                    0 -> DRINK
+
+                    else -> SQUEEZE
+
+                }
+            }
+
+            DRINK -> {
+                RESTART
+                lemonSize = -1
+            }
+
+            RESTART -> SELECT
+
+
+        }
 
         // TODO: When the image is clicked in the SQUEEZE state the squeezeCount needs to be
         //  INCREASED by 1 and lemonSize needs to be DECREASED by 1.
@@ -109,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         //  - Additionally, lemonSize is no longer relevant and should be set to -1
 
         // TODO: When the image is clicked in the DRINK state the state should become RESTART
+
 
         // TODO: When the image is clicked in the RESTART state the state should become SELECT
 
